@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <string.h>
+
+int main(){
+       int a[10],i,j;
+
+       printf("Enter numbers in array: ");
+       for (i=0;i<10;i++){
+              scanf("%d",&a[i]);
+       }
+
+       printf("\n Enter element to search: ");
+       scanf("%d",&j);
+
+       for(i=0;i<10;i++){
+              if(a[i]==j){
+                     printf("%d Found at index %d",a[i],j);
+              }
+       }
+
+       return 0;
+}
