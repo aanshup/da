@@ -1,0 +1,91 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Graph {
+private:
+    int V;
+    vector<pair<int, pair<int, int>>> edges;
+    vector<pair<int, pair<int, int>>> minimumSpanningTree;
+
+public:
+    Graph(int vertices);
+    void addEdge(int u, int v, int weight);
+    int findSet(int vertex);
+    void unionSets(int u, int v);
+    void kruskal();
+    void printMST();
+};
+
+Graph::Graph(int vertices) {
+    V = vertices;
+    edges.clear();
+    minimumSpanningTree.clear();
+}
+
+void Graph::addEdge(int u, int v, int weight) {
+    edges.push_back({weight, {u, v}});
+}
+
+int Graph::findSet(int vertex) {
+    if (vertex == parent[vertex]) return vertex;
+    return findSet(parent[vertex]);
+}
+
+void Graph::unionSets(int u, int v) {
+    parent[u] = parent[v];
+}
+
+void Graph::kruskal() {
+    sort(edges.begin(), edges.end());
+
+    for (int i = 0; i < edges.size(); i++) {
+        int u = edges[i].second.first;
+        int v = edges[i].second.second;
+        int weight = edges[i].first;
+
+        int uSet = findSet(u);
+        int vSet = findSet(v);
+
+        if (uSet != vSet) {
+            minimumSpanningTree.push_back({weight, {u, v}});
+            unionSets(uSet, vSet);
+        }
+    }
+}
+
+void Graph::printMST() {
+    cout << "Edge : Weight" << endl;
+    for (int i = 0; i < minimumSpanningTree.size(); i++) {
+        int u = minimumSpanningTree[i].second.first;
+        int v = minimumSpanningTree[i].second.second;
+        int weight = minimumSpanningTree[i].first;
+
+        cout << u << " - " << v << " : " << weight << endl;
+    }
+}
+
+int main() {
+    Graph g(6);
+    g.addEdge(0, 1, 4);
+    g.addEdge(0, 2, 4);
+    g.addEdge(1, 2, 5);
+    g.addEdge(1, 0, 9);
+    g.addEdge(2, 0, 4);
+    g.addEdge(2, 1, 2);
+    g.addEdge(2, 3, 3);
+    g.addEdge(2, 5, 2);
+    g.addEdge(2, 4, 4);
+    g.addEdge(3, 2, 3);
+    g.addEdge(3, 4, 3);
+    g.addEdge(4, 2, 4);
+    g.addEdge(4, 3, 3);
+    g.addEdge(5, 2, 2);
+    g.addEdge(5, 4, 3);
+
+    g.kruskal();
+    g.printMST();
+
+    return 0;
+}

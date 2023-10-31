@@ -1,0 +1,52 @@
+#include <iostream>
+using namespace std;
+
+#define V 5
+#define HIGH 999999
+
+int main() {
+
+    int G[V][V] = {
+        {0, 5, 0, 2, 2},
+        {4, 0, 1, 3, 0},
+        {0, 1, 0, 4, 0},
+        {5, 6, 8, 0, 2},
+        {2, 0, 0, 2, 0}
+    };
+
+    bool v_array[V];
+
+    memset(v_array, false, sizeof(v_array));
+
+    v_array[0] = true;
+
+    cout << "EDGE: WEIGHT" << endl;
+
+    int n_edges = 0;
+
+    while (n_edges < V - 1) {
+        int min = HIGH;
+        int r = 0, c = 0;
+
+        for (int i = 0; i < V; ++i) {
+            if (v_array[i]) {
+                for (int j = 0; j < V; ++j) {
+                    if (min > G[i][j] && !v_array[j] && G[i][j]) {
+                        // Update minimum weight, r, and c
+                        min = G[i][j];
+                        r = i;
+                        c = j;
+                    }
+                }
+            }
+        }
+
+        cout << " " << r << "-" << c << ": " << G[r][c] << endl;
+
+        v_array[c] = true;
+
+        n_edges++;
+    }
+
+    return 0;
+}
