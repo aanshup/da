@@ -4,10 +4,10 @@ using namespace std;
 int fact(int n){
        int fac = 1;
        for(int i=1;i<=n;i++){
-              fact=fact*i;
+              fac=fac*i;
        }
 
-       return fact;
+       return fac;
 }
 
 int main(){
